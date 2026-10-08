@@ -11,8 +11,10 @@ const server = http.createServer(app);
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5001',
+  'http://localhost:5002', // নতুন 5002 পোর্টটি এখানে যোগ করে দিলাম
   'http://127.0.0.1:3000',
-  'http://127.0.0.1:5001'
+  'http://127.0.0.1:5001',
+  'http://127.0.0.1:5002'
 ];
 
 app.use(cors({
