@@ -208,7 +208,6 @@ function RestaurantOrders({ restaurant, showToast }) {
       const fetchedOrders = Array.isArray(res.data) ? res.data : [];
       setOrders(fetchedOrders);
 
-      // Check if there is any pending order that needs attention
       const pendingOrder = fetchedOrders.find(o => {
         let itemsArr = [];
         try { itemsArr = typeof o.items === 'string' ? JSON.parse(o.items) : (o.items || []); } catch { itemsArr = []; }
@@ -231,7 +230,7 @@ function RestaurantOrders({ restaurant, showToast }) {
     fetchOrders();
     const interval = setInterval(fetchOrders, 5000);
 
-    const socket = io('http://localhost:5000');
+    const socket = io('https://cityfood-server-platform.onrender.com');
     socket.on('new_order', (orderData) => {
       let itemsArr = [];
       try { itemsArr = typeof orderData.items === 'string' ? JSON.parse(orderData.items) : (orderData.items || []); } catch { itemsArr = []; }

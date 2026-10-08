@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api', // আপনার ব্যাকএন্ড পোর্ট অনুযায়ী দিন
+  baseURL: 'https://cityfood-server-platform.onrender.com/api', // Render লাইভ ব্যাকএন্ড ইউআরএল
   headers: {
     'Content-Type': 'application/json',
   },

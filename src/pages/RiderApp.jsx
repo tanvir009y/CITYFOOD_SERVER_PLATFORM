@@ -312,7 +312,7 @@ function RiderOrders({ showToast }) {
     fetchOrders();
     const interval = setInterval(fetchOrders, 5000);
 
-    const socket = io('http://localhost:5000');
+    const socket = io('https://cityfood-server-platform.onrender.com');
     socket.on('new_order', () => {
       fetchOrders();
     });
@@ -934,7 +934,7 @@ function RiderAppContent() {
 
     requestNotificationPermission();
 
-    const socket = io('http://localhost:5000');
+    const socket = io('https://cityfood-server-platform.onrender.com');
 
     socket.on('new_order', (orderData) => {
       const currentStatus = String(rider.status || 'active').toLowerCase();
