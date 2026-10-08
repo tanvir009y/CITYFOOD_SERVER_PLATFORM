@@ -3,6 +3,9 @@ require('dotenv').config();
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:5432/cityfood_db',
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 const initDB = async () => {
