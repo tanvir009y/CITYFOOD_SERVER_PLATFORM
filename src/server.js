@@ -1,5 +1,5 @@
 const express = require('express');
-const http = require('http');
+const http = http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 require('dotenv').config();
@@ -1024,7 +1024,6 @@ app.post('/api/restaurant/login', async (req, res) => {
   }
 });
 
-// Robust Ongoing Orders: Fetches all active orders and safely filters via JS to guarantee zero missing orders for any restaurant
 app.get('/api/restaurant/:id/orders', async (req, res) => {
   const { id } = req.params;
   try {
@@ -1043,7 +1042,6 @@ app.get('/api/restaurant/:id/orders', async (req, res) => {
       let itemsArr = [];
       try { itemsArr = typeof order.items === 'string' ? JSON.parse(order.items) : (order.items || []); } catch { itemsArr = []; }
 
-      // Match items strictly by restaurant_id or restaurant_name
       const myItems = itemsArr.filter(it =>
         Number(it.restaurant_id) === Number(id) ||
         (restName && String(it.restaurant_name || '').toLowerCase().trim() === restName.toLowerCase().trim())
@@ -1082,7 +1080,6 @@ app.patch('/api/restaurant/orders/:id/status', async (req, res) => {
   }
 });
 
-// Update individual restaurant item status inside multi-restaurant order
 app.patch('/api/restaurant/orders/:id/item-status', async (req, res) => {
   const { restaurant_id, status } = req.body;
   const orderId = req.params.id;
@@ -1098,7 +1095,6 @@ app.patch('/api/restaurant/orders/:id/item-status', async (req, res) => {
         : (orderRes.rows[0].items || []);
     } catch { itemsArr = []; }
 
-    // Update status for items belonging to this restaurant
     const updatedItems = itemsArr.map(it => {
       if (Number(it.restaurant_id) === Number(restaurant_id)) {
         return { ...it, status: status };
@@ -1118,7 +1114,6 @@ app.patch('/api/restaurant/orders/:id/item-status', async (req, res) => {
   }
 });
 
-// Robust History for Restaurant
 app.get('/api/restaurant/:id/history', async (req, res) => {
   const { id } = req.params;
   const { dateFilter, customDate, statusFilter } = req.query;
