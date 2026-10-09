@@ -10,7 +10,11 @@
   "orientation": "any",
   "dir": "ltr",
   "lang": "en",
-  "categories": ["business", "productivity", "utilities"],
+  "categories": [
+    "business",
+    "productivity",
+    "utilities"
+  ],
   "icons": [
     {
       "src": "/logo192.png",
