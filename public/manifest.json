@@ -1,6 +1,13 @@
 {
-  "short_name": "CityFood",
-  "name": "CityFood",
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "CityFood Admin",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Admin",
+  "start_url": "/",
+  "theme_color": "#ffffff",
   "icons": [
     {
       "src": "/logo192.png",
@@ -13,8 +20,5 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "/customer",
-  "background_color": "#ffffff",
-  "theme_color": "#059669",
-  "display": "standalone"
+  "description": "CityFood Admin and Control Panel application"
 }
