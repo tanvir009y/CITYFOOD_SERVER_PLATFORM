@@ -186,6 +186,23 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
+app.put('/api/restaurant/:id/status', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { is_open } = req.body;
+    const result = await pool.query(
+      'UPDATE restaurants SET is_open = $1 WHERE id = $2 RETURNING *',
+      [is_open, id]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, error: 'Restaurant not found' });
+    }
+    res.json({ success: true, restaurant: result.rows[0] });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // =================== RIDER APP AUTH & APIS =================== //
 app.post('/api/rider/login', async (req, res) => {
   const { phone, password } = req.body;
