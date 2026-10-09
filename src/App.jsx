@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
@@ -18,16 +18,29 @@ import RiderApp from './pages/RiderApp';
 import RestaurantApp from './pages/RestaurantApp';
 import { SocketProvider } from './context/SocketContext';
 
-// Admin Protected Layout (Sidebar & Navbar shudhu Admin panel-e thakbe)
+// Admin Protected Layout (Sidebar & Navbar shudhu Admin panel-e thakbe)[cite: 15]
 function ProtectedLayout() {
   const token = localStorage.getItem('admin_token');
   if (!token) {
     return <Navigate to="/login" replace />;
   }
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
-    <div className="flex min-h-screen bg-gray-50 font-sans">
-      <Sidebar />
+    <div className="flex min-h-screen bg-gray-50 font-sans relative">
+      {/* Mobile Floating Menu Button */}
+      <button
+        onClick={() => setSidebarOpen(true)}
+        className="md:hidden fixed bottom-5 right-5 z-30 bg-emerald-600 text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center hover:bg-emerald-700 transition-all cursor-pointer"
+        title="Open Menu"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+
+      <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
       <div className="flex-1 flex flex-col min-w-0">
         <Navbar />
         <main className="flex-1 overflow-y-auto">
