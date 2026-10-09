@@ -44,13 +44,13 @@ export default function OnlineTrx() {
   });
 
   return (
-    <div className="p-8 space-y-6 bg-gray-50 min-h-screen font-sans">
+    <div className="p-4 sm:p-8 space-y-6 bg-gray-50 min-h-screen font-sans">
       <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-black text-gray-900 tracking-tight flex items-center gap-2">
-            <CreditCard className="w-7 h-7 text-emerald-600" /> Online Transactions (Bkash & Nagad)
+          <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight flex items-center gap-2">
+            <CreditCard className="w-6 h-6 sm:w-7 sm:h-7 text-emerald-600" /> Online Transactions (Bkash & Nagad)
           </h1>
-          <p className="text-sm text-gray-500">কাস্টমারদের সাবমিট করা বিকাশ ও নগদ ট্রানজেকশন আইডি এবং ডেট-ওয়াইজ মনিটরিং</p>
+          <p className="text-xs sm:text-sm text-gray-500">কাস্টমারদের সাবমিট করা বিকাশ ও নগদ ট্রানজেকশন আইডি এবং ডেট-ওয়াইজ মনিটরিং</p>
         </div>
 
         <div className="flex items-center gap-3">
@@ -61,7 +61,7 @@ export default function OnlineTrx() {
               placeholder="Search Trx ID, Phone..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9 pr-4 py-2 border border-gray-200 rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 w-64"
+              className="pl-9 pr-4 py-2 border border-gray-200 rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 w-full sm:w-64"
             />
           </div>
           <button
@@ -107,57 +107,60 @@ export default function OnlineTrx() {
         )}
       </div>
 
+      {/* Horizontal Scroll Wrapper Added */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <table className="w-full text-left text-sm text-gray-600">
-          <thead className="bg-gray-50 text-gray-700 font-bold text-xs uppercase border-b">
-            <tr>
-              <th className="p-4">Order ID</th>
-              <th className="p-4">Date & Time</th>
-              <th className="p-4">Customer Info</th>
-              <th className="p-4">Payment Method</th>
-              <th className="p-4">Transaction ID (Trx ID)</th>
-              <th className="p-4 text-right">Amount</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100 font-medium">
-            {loading ? (
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-sm text-gray-600 min-w-[700px]">
+            <thead className="bg-gray-50 text-gray-700 font-bold text-xs uppercase border-b">
               <tr>
-                <td colSpan="6" className="p-12 text-center text-gray-400 font-bold">ডাটা লোড হচ্ছে...</td>
+                <th className="p-4">Order ID</th>
+                <th className="p-4">Date & Time</th>
+                <th className="p-4">Customer Info</th>
+                <th className="p-4">Payment Method</th>
+                <th className="p-4">Transaction ID (Trx ID)</th>
+                <th className="p-4 text-right">Amount</th>
               </tr>
-            ) : filteredTrx.length === 0 ? (
-              <tr>
-                <td colSpan="6" className="p-12 text-center text-gray-400 font-semibold">কোনো অনলাইন ট্রানজেকশন পাওয়া যায়নি</td>
-              </tr>
-            ) : (
-              filteredTrx.map((item) => (
-                <tr key={item.id} className="hover:bg-emerald-50/30 transition-colors">
-                  <td className="p-4 font-bold text-gray-900">#ORD-{item.id}</td>
-                  <td className="p-4 text-xs text-gray-500 font-semibold">
-                    {new Date(item.created_at).toLocaleDateString()} <br />
-                    <span className="text-[11px] text-emerald-700 font-bold">
-                      {new Date(item.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </span>
-                  </td>
-                  <td className="p-4">
-                    <div className="font-bold text-gray-900">{item.customer_name}</div>
-                    <span className="text-xs text-gray-400">{item.customer_phone}</span>
-                  </td>
-                  <td className="p-4">
-                    <span className="px-2.5 py-1 bg-pink-50 text-pink-700 rounded-lg text-xs font-black uppercase">
-                      {item.payment_method}
-                    </span>
-                  </td>
-                  <td className="p-4 font-mono font-black text-emerald-600 text-base">
-                    {item.transaction_id}
-                  </td>
-                  <td className="p-4 text-right font-black text-gray-900 text-base">
-                    ৳ {Number(item.total_amount || 0).toLocaleString()}
-                  </td>
+            </thead>
+            <tbody className="divide-y divide-gray-100 font-medium">
+              {loading ? (
+                <tr>
+                  <td colSpan="6" className="p-12 text-center text-gray-400 font-bold">ডাটা লোড হচ্ছে...</td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : filteredTrx.length === 0 ? (
+                <tr>
+                  <td colSpan="6" className="p-12 text-center text-gray-400 font-semibold">কোনো অনলাইন ট্রানজেকশন পাওয়া যায়নি</td>
+                </tr>
+              ) : (
+                filteredTrx.map((item) => (
+                  <tr key={item.id} className="hover:bg-emerald-50/30 transition-colors">
+                    <td className="p-4 font-bold text-gray-900">#ORD-{item.id}</td>
+                    <td className="p-4 text-xs text-gray-500 font-semibold">
+                      {new Date(item.created_at).toLocaleDateString()} <br />
+                      <span className="text-[11px] text-emerald-700 font-bold">
+                        {new Date(item.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    </td>
+                    <td className="p-4">
+                      <div className="font-bold text-gray-900">{item.customer_name}</div>
+                      <span className="text-xs text-gray-400">{item.customer_phone}</span>
+                    </td>
+                    <td className="p-4">
+                      <span className="px-2.5 py-1 bg-pink-50 text-pink-700 rounded-lg text-xs font-black uppercase">
+                        {item.payment_method}
+                      </span>
+                    </td>
+                    <td className="p-4 font-mono font-black text-emerald-600 text-base">
+                      {item.transaction_id}
+                    </td>
+                    <td className="p-4 text-right font-black text-gray-900 text-base">
+                      ৳ {Number(item.total_amount || 0).toLocaleString()}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

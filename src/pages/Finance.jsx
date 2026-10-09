@@ -98,11 +98,11 @@ export default function Finance() {
   };
 
   return (
-    <div className="p-8 space-y-6 bg-gray-50 min-h-screen font-sans">
+    <div className="p-4 sm:p-8 space-y-6 bg-gray-50 min-h-screen font-sans">
       <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-black text-gray-900 tracking-tight">Finance & Accounts Hub</h1>
-          <p className="text-sm text-gray-500">রেস্টুরেন্ট ও রাইডারদের সম্পূর্ণ সেলস, কমিশন ও ডেট-ওয়াইজ ড্রিলডাউন রিপোর্ট</p>
+          <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">Finance & Accounts Hub</h1>
+          <p className="text-xs sm:text-sm text-gray-500">রেস্টুরেন্ট ও রাইডারদের সম্পূর্ণ সেলস, কমিশন ও ডেট-ওয়াইজ ড্রিলডাউন রিপোর্ট</p>
         </div>
 
         <button
@@ -116,25 +116,25 @@ export default function Finance() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-1">
           <span className="text-[11px] font-bold text-gray-400 uppercase">Total Delivered Sales</span>
-          <h3 className="text-2xl font-black text-gray-900">৳ {Number(overview.grossSales || 0).toLocaleString()}</h3>
+          <h3 className="text-xl sm:text-2xl font-black text-gray-900">৳ {Number(overview.grossSales || 0).toLocaleString()}</h3>
           <span className="text-xs text-emerald-600 font-bold block">{overview.deliveredCount} orders delivered</span>
         </div>
 
         <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-1">
           <span className="text-[11px] font-bold text-gray-400 uppercase">Platform Commission (10%)</span>
-          <h3 className="text-2xl font-black text-emerald-600">৳ {Number(overview.platformCommission || 0).toLocaleString()}</h3>
+          <h3 className="text-xl sm:text-2xl font-black text-emerald-600">৳ {Number(overview.platformCommission || 0).toLocaleString()}</h3>
           <span className="text-xs text-gray-400 font-semibold block">Company Revenue</span>
         </div>
 
         <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-1">
           <span className="text-[11px] font-bold text-gray-400 uppercase">Net Payable to Partners</span>
-          <h3 className="text-2xl font-black text-slate-800">৳ {Number(overview.netPayableToRestaurants || 0).toLocaleString()}</h3>
+          <h3 className="text-xl sm:text-2xl font-black text-slate-800">৳ {Number(overview.netPayableToRestaurants || 0).toLocaleString()}</h3>
           <span className="text-xs text-blue-600 font-bold block">For Restaurants</span>
         </div>
 
         <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm space-y-1">
           <span className="text-[11px] font-bold text-gray-400 uppercase">Riders COD in Hand</span>
-          <h3 className="text-2xl font-black text-amber-600">৳ {Number(overview.totalRiderCash || 0).toLocaleString()}</h3>
+          <h3 className="text-xl sm:text-2xl font-black text-amber-600">৳ {Number(overview.totalRiderCash || 0).toLocaleString()}</h3>
           <span className="text-xs text-red-500 font-bold block">Unsettled Cash</span>
         </div>
       </div>
@@ -163,98 +163,103 @@ export default function Finance() {
         </button>
       </div>
 
+      {/* Horizontal Scroll Wrapper Added */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         {activeTab === 'restaurants' ? (
-          <table className="w-full text-left text-sm text-gray-600">
-            <thead className="bg-gray-50 text-gray-700 font-bold text-xs uppercase border-b">
-              <tr>
-                <th className="p-4">Restaurant</th>
-                <th className="p-4">Delivered Sales</th>
-                <th className="p-4">Commission (10%)</th>
-                <th className="p-4">Net Payable</th>
-                <th className="p-4">Orders (Del / Can)</th>
-                <th className="p-4 text-right">Drilldown</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100 font-medium">
-              {restaurants.map((r) => {
-                const gross = Number(r.gross_sales || 0);
-                const commission = gross * 0.10;
-                const net = gross - commission;
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm text-gray-600 min-w-[750px]">
+              <thead className="bg-gray-50 text-gray-700 font-bold text-xs uppercase border-b">
+                <tr>
+                  <th className="p-4">Restaurant</th>
+                  <th className="p-4">Delivered Sales</th>
+                  <th className="p-4">Commission (10%)</th>
+                  <th className="p-4">Net Payable</th>
+                  <th className="p-4">Orders (Del / Can)</th>
+                  <th className="p-4 text-right">Drilldown</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 font-medium">
+                {restaurants.map((r) => {
+                  const gross = Number(r.gross_sales || 0);
+                  const commission = gross * 0.10;
+                  const net = gross - commission;
 
-                return (
-                  <tr key={r.id} className="hover:bg-emerald-50/30 transition-colors">
+                  return (
+                    <tr key={r.id} className="hover:bg-emerald-50/30 transition-colors">
+                      <td className="p-4 font-bold text-gray-900">
+                        <div>{r.name}</div>
+                        <span className="text-xs text-gray-400 font-normal">{r.phone}</span>
+                      </td>
+                      <td className="p-4 font-bold text-gray-900">৳ {gross.toLocaleString()}</td>
+                      <td className="p-4 text-emerald-700 font-semibold">৳ {commission.toLocaleString()}</td>
+                      <td className="p-4 font-black text-emerald-600">৳ {net.toLocaleString()}</td>
+                      <td className="p-4 text-xs font-semibold">
+                        <span className="text-emerald-700">{r.delivered_orders} Del</span> /{' '}
+                        <span className="text-red-500">{r.cancelled_orders} Can</span>
+                      </td>
+                      <td className="p-4 text-right">
+                        <button
+                          onClick={() => handleOpenDrilldown('restaurant', r)}
+                          className="px-3 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl text-xs font-bold hover:bg-emerald-600 hover:text-white transition-all flex items-center gap-1 ml-auto cursor-pointer"
+                        >
+                          <Eye className="w-3.5 h-3.5" /> Full Sell Details
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm text-gray-600 min-w-[750px]">
+              <thead className="bg-gray-50 text-gray-700 font-bold text-xs uppercase border-b">
+                <tr>
+                  <th className="p-4">Rider</th>
+                  <th className="p-4">Cash In Hand (COD)</th>
+                  <th className="p-4">Cash Limit</th>
+                  <th className="p-4">Order Breakdown</th>
+                  <th className="p-4">Status</th>
+                  <th className="p-4 text-right">Drilldown</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 font-medium">
+                {riders.map((rd) => (
+                  <tr key={rd.id} className="hover:bg-emerald-50/30 transition-colors">
                     <td className="p-4 font-bold text-gray-900">
-                      <div>{r.name}</div>
-                      <span className="text-xs text-gray-400 font-normal">{r.phone}</span>
+                      <div>{rd.name}</div>
+                      <span className="text-xs text-gray-400 font-normal">{rd.phone}</span>
                     </td>
-                    <td className="p-4 font-bold text-gray-900">৳ {gross.toLocaleString()}</td>
-                    <td className="p-4 text-emerald-700 font-semibold">৳ {commission.toLocaleString()}</td>
-                    <td className="p-4 font-black text-emerald-600">৳ {net.toLocaleString()}</td>
-                    <td className="p-4 text-xs font-semibold">
-                      <span className="text-emerald-700">{r.delivered_orders} Del</span> /{' '}
-                      <span className="text-red-500">{r.cancelled_orders} Can</span>
+                    <td className="p-4 font-black text-amber-600">৳ {Number(rd.cash_in_hand || 0).toLocaleString()}</td>
+                    <td className="p-4 text-xs text-gray-500">৳ {Number(rd.cash_limit || 2000).toLocaleString()}</td>
+                    <td className="p-4 text-xs font-bold space-y-0.5">
+                      <p className="text-blue-700">Accepted: {rd.accepted_deliveries || 0}</p>
+                      <p className="text-emerald-700">Delivered: {rd.delivered_deliveries || 0}</p>
+                      <p className="text-red-500">Cancelled: {rd.cancelled_deliveries || 0}</p>
+                    </td>
+                    <td className="p-4">
+                      <span
+                        className={`px-2 py-0.5 rounded text-[10px] font-black uppercase ${
+                          rd.status === 'locked' ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-800'
+                        }`}
+                      >
+                        {rd.status || 'active'}
+                      </span>
                     </td>
                     <td className="p-4 text-right">
                       <button
-                        onClick={() => handleOpenDrilldown('restaurant', r)}
+                        onClick={() => handleOpenDrilldown('rider', rd)}
                         className="px-3 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl text-xs font-bold hover:bg-emerald-600 hover:text-white transition-all flex items-center gap-1 ml-auto cursor-pointer"
                       >
-                        <Eye className="w-3.5 h-3.5" /> Full Sell Details
+                        <Eye className="w-3.5 h-3.5" /> Full Delivery Details
                       </button>
                     </td>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        ) : (
-          <table className="w-full text-left text-sm text-gray-600">
-            <thead className="bg-gray-50 text-gray-700 font-bold text-xs uppercase border-b">
-              <tr>
-                <th className="p-4">Rider</th>
-                <th className="p-4">Cash In Hand (COD)</th>
-                <th className="p-4">Cash Limit</th>
-                <th className="p-4">Order Breakdown</th>
-                <th className="p-4">Status</th>
-                <th className="p-4 text-right">Drilldown</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100 font-medium">
-              {riders.map((rd) => (
-                <tr key={rd.id} className="hover:bg-emerald-50/30 transition-colors">
-                  <td className="p-4 font-bold text-gray-900">
-                    <div>{rd.name}</div>
-                    <span className="text-xs text-gray-400 font-normal">{rd.phone}</span>
-                  </td>
-                  <td className="p-4 font-black text-amber-600">৳ {Number(rd.cash_in_hand || 0).toLocaleString()}</td>
-                  <td className="p-4 text-xs text-gray-500">৳ {Number(rd.cash_limit || 2000).toLocaleString()}</td>
-                  <td className="p-4 text-xs font-bold space-y-0.5">
-                    <p className="text-blue-700">Accepted: {rd.accepted_deliveries || 0}</p>
-                    <p className="text-emerald-700">Delivered: {rd.delivered_deliveries || 0}</p>
-                    <p className="text-red-500">Cancelled: {rd.cancelled_deliveries || 0}</p>
-                  </td>
-                  <td className="p-4">
-                    <span
-                      className={`px-2 py-0.5 rounded text-[10px] font-black uppercase ${
-                        rd.status === 'locked' ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-800'
-                      }`}
-                    >
-                      {rd.status || 'active'}
-                    </span>
-                  </td>
-                  <td className="p-4 text-right">
-                    <button
-                      onClick={() => handleOpenDrilldown('rider', rd)}
-                      className="px-3 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl text-xs font-bold hover:bg-emerald-600 hover:text-white transition-all flex items-center gap-1 ml-auto cursor-pointer"
-                    >
-                      <Eye className="w-3.5 h-3.5" /> Full Delivery Details
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 

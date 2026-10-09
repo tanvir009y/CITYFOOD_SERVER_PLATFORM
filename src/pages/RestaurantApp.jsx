@@ -506,6 +506,7 @@ function RestaurantProducts({ restaurantId, showToast }) {
 
 function RestaurantSettings({ restaurant, setRestaurant, showToast }) {
   const [logoFile, setLogoFile] = useState(restaurant.image_url || '');
+  const [isOpen, setIsOpen] = useState(restaurant.is_open ?? true);
 
   const handleLogoFileChange = (e) => {
     const file = e.target.files[0];
@@ -528,10 +529,45 @@ function RestaurantSettings({ restaurant, setRestaurant, showToast }) {
     } catch (err) { showToast('Error', 'Failed to update logo'); }
   };
 
+  const handleToggleOpenStatus = async (newStatus) => {
+    try {
+      const res = await API.put(`/restaurant/${restaurant.id}/status`, { is_open: newStatus });
+      if (res.data.success) {
+        setIsOpen(newStatus);
+        const updatedRest = { ...restaurant, is_open: newStatus };
+        setRestaurant(updatedRest);
+        localStorage.setItem('cf_restaurant', JSON.stringify(updatedRest));
+        showToast('Status Updated', newStatus ? 'Restaurant is now OPEN' : 'Restaurant is now CLOSED');
+      }
+    } catch (err) {
+      showToast('Error', 'Failed to update status');
+    }
+  };
+
   return (
     <div className="space-y-4 max-w-lg mx-auto bg-white p-6 rounded-3xl border">
       <h2 className="text-lg font-black">Settings</h2>
-      <form onSubmit={handleUpdateLogo} className="space-y-4 text-xs font-bold">
+
+      {/* Restaurant Open/Close Status Toggle */}
+      <div className="p-4 bg-gray-50 rounded-2xl border flex items-center justify-between">
+        <div>
+          <span className="font-bold text-gray-900 block text-xs">Restaurant Status</span>
+          <span className={`text-[10px] font-black uppercase ${isOpen ? 'text-emerald-600' : 'text-red-600'}`}>
+            {isOpen ? '🟢 Currently Open' : '🔴 Currently Closed'}
+          </span>
+        </div>
+        <button
+          type="button"
+          onClick={() => handleToggleOpenStatus(!isOpen)}
+          className={`px-4 py-2 rounded-xl text-xs font-black text-white shadow-md cursor-pointer transition-colors ${
+            isOpen ? 'bg-red-600 hover:bg-red-700' : 'bg-emerald-600 hover:bg-emerald-700'
+          }`}
+        >
+          {isOpen ? 'Close Restaurant' : 'Open Restaurant'}
+        </button>
+      </div>
+
+      <form onSubmit={handleUpdateLogo} className="space-y-4 text-xs font-bold pt-2">
         <img src={logoFile || 'https://via.placeholder.com/150'} className="w-24 h-24 mx-auto rounded-2xl object-cover" />
         <input type="file" accept="image/*" onChange={handleLogoFileChange} className="w-full p-2 border rounded-xl" />
         <button type="submit" className="w-full py-3 bg-emerald-600 text-white rounded-xl">Update Logo</button>
