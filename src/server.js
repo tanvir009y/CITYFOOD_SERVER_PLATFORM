@@ -11,12 +11,12 @@ const server = http.createServer(app);
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5001',
-  'http://localhost:5002', // নতুন 5002 পোর্টটি এখানে যোগ করে দিলাম
+  'http://localhost:5002',
   'http://127.0.0.1:3000',
   'http://127.0.0.1:5001',
-  'http://127.0.0.1:5002'
+  'http://127.0.0.1:5002',
+  'https://cityfood.onrender.com' // আপনার লাইভ ফ্রন্টএন্ড ডোমেইন এখানে যুক্ত করা হলো
 ];
-
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
